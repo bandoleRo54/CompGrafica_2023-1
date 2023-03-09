@@ -1,0 +1,9 @@
+﻿cl : línea de comandos  warning D9035: La opción 'Gm' está desusada y se quitará en próximas versiones
+  Cola.cpp
+C:\Users\matth\Documents\ComputacionGrafica\2023-2-9_OGLBasico\Cola.cpp(25,25): warning C4305: 'argumento': truncamiento de 'double' a 'GLfloat'
+C:\Users\matth\Documents\ComputacionGrafica\2023-2-9_OGLBasico\Cola.cpp(31,32): warning C4244: 'argumento': conversión de 'int' a 'GLfloat'; posible pérdida de datos
+C:\Users\matth\Documents\ComputacionGrafica\2023-2-9_OGLBasico\Cola.cpp(32,18): warning C4244: 'argumento': conversión de 'int' a 'GLfloat'; posible pérdida de datos
+C:\Users\matth\Documents\ComputacionGrafica\2023-2-9_OGLBasico\Cola.cpp(34,33): warning C4305: 'argumento': truncamiento de 'double' a 'GLfloat'
+C:\Users\matth\Documents\ComputacionGrafica\2023-2-9_OGLBasico\Cola.cpp(34,16): warning C4244: 'argumento': conversión de 'double' a 'GLfloat'; posible pérdida de datos
+Cola.obj : warning LNK4075: se omite '/EDITANDCONTINUE' debido a la especificación '/SAFESEH'
+  TemplateProject.vcxproj -> C:\Users\matth\Documents\ComputacionGrafica\2023-2-9_OGLBasico\Debug\TemplateProject.exe
