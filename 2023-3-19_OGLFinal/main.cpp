@@ -11,7 +11,13 @@
 #include <time.h>
 #include "glm.h"
 #include <FreeImage.h> //*** Para Textura: Incluir librería}
-#include "Suelo.h"
+#include "Plancha.h"
+#include "MaquinaTiempo.h"
+#include "Mesa.h"
+#include "Silla.h"
+#include "Palma.h"
+#include "Fogata.h"
+#include "Chimenea.h"
 
 //-----------------------------------------------------------------------------
 
@@ -26,11 +32,21 @@ protected:
    clock_t time0,time1;
    float timer010;  // timer counting 0->1->0
    bool bUp;        // flag if counting up or down.
-   GLMmodel* objmodel_ptr;
-   GLMmodel* objmodel_ptr1; //*** Para Textura: variable para objeto texturizado
+   GLMmodel* plancha_obj;
+   GLMmodel* maquinaTiempo_obj; //*** Para Textura: variable para objeto texturizado
+   GLMmodel* mesa_obj;
+   GLMmodel* sillas_obj;
+   GLMmodel* palmas_obj;
+   GLMmodel* fogata_obj;
+   GLMmodel* chimenea_obj;
    GLuint texid; //*** Para Textura: variable que almacena el identificador de textura
-   Suelo* sueloBase;
-
+   Plancha* planchaBase;
+   MaquinaTiempo* maquinaTiempo;
+   Mesa* mesa;
+   Silla* sillas;
+   Palma* palmas;
+   Fogata* fogata;
+   Chimenea* chimenea;
 
 public:
 	myWindow(){}
@@ -40,10 +56,6 @@ public:
 	{
 		int w, h;
 		GLubyte* data = 0;
-		//data = glmReadPPM("soccer_ball_diffuse.ppm", &w, &h);
-		//std::cout << "Read soccer_ball_diffuse.ppm, width = " << w << ", height = " << h << std::endl;
-
-		//dib1 = loadImage("soccer_ball_diffuse.jpg"); //FreeImage
 
 		glGenTextures(1, &texid);
 		glBindTexture(GL_TEXTURE_2D, texid);
@@ -53,8 +65,8 @@ public:
 
 		// Loading JPG file 
 		FIBITMAP* bitmap = FreeImage_Load(
-			FreeImage_GetFileType("./Mallas/bola.jpg", 0),
-			"./Mallas/bola.jpg");  //*** Para Textura: esta es la ruta en donde se encuentra la textura
+			FreeImage_GetFileType("./Mallas/Painted_wood_Base_Color.PNG", 0),
+			"./Mallas/Painted_wood_Base_Color.PNG");  //*** Para Textura: esta es la ruta en donde se encuentra la textura
 
 		FIBITMAP* pImage = FreeImage_ConvertTo32Bits(bitmap);
 		int nWidth = FreeImage_GetWidth(pImage);
@@ -76,30 +88,27 @@ public:
       timer010 = 0.09; //for screenshot!
 
       glPushMatrix();
-	  glRotatef(timer010 * 360, 0.5, 1.0f, 0.1f);
+	  glRotatef(timer010 * 360, 0.5, 0.7f, 0.2f);
+	  glScalef(1.25f, 1.25f, 1.25f);
 
       if (shader) shader->begin();
-		  
-		  //glPushMatrix();
 
-		  //glScalef(5, 5, 5);
-		  //glTranslatef(0.0f, 0.0f, 0.0f);
-		  /*glRotatef(45.0f, 0.0f, 1.0f, 1.0f);
-		  glmDraw(objmodel_ptr, GLM_SMOOTH | GLM_MATERIAL);
-		  glPopMatrix();*/
-	      //glutSolidTeapot(1.0);
-		  sueloBase->crearSuelo(objmodel_ptr);
+		  planchaBase->crearSuelo(plancha_obj);
+		  planchaBase->crearParedes(plancha_obj);
+		  maquinaTiempo->crearMaquinaTiempo(maquinaTiempo_obj);
+		  sillas->crearSillas(sillas_obj);
+		  palmas->crearPalmas(palmas_obj);
+		  fogata->crearFogata(fogata_obj);
+		  chimenea->crearChimenea(chimenea_obj);
+
       if (shader) shader->end();
 
 	  //*** Para Textura: llamado al shader para objetos texturizados
 	  if (shader1) shader1->begin();
-
-		  glPushMatrix();
-		  glTranslatef(1.5f, 0.0f, 0.0f);
+		  
 		  glBindTexture(GL_TEXTURE_2D, texid);
-		  //glmDraw(objmodel_ptr1, GLM_SMOOTH | GLM_MATERIAL | GLM_TEXTURE);
-		  glPopMatrix();
-	  //glutSolidTeapot(1.0);
+		  mesa->crearMesa(mesa_obj);
+
 	  if (shader1) shader1->end();
 
 
@@ -117,7 +126,13 @@ public:
 	// is already available!
 	virtual void OnInit()
 	{
-		sueloBase = new Suelo;
+		planchaBase = new Plancha;
+		maquinaTiempo = new MaquinaTiempo;
+		mesa = new Mesa;
+		sillas = new Silla;
+		palmas = new Palma;
+		chimenea = new Chimenea;
+
 		glClearColor(0.5f, 0.5f, 1.0f, 0.0f);
 		glShadeModel(GL_SMOOTH);
 		glEnable(GL_DEPTH_TEST);
@@ -144,38 +159,96 @@ public:
       bUp = true;
 
 	  //Abrir mallas
-	  objmodel_ptr = NULL;
+	  plancha_obj = NULL;
 
-	  if (!objmodel_ptr)
+	  if (!plancha_obj)
 	  {
-		  /*objmodel_ptr = glmReadOBJ("./Mallas/campfire.obj");
-		  if (!objmodel_ptr)
+		  plancha_obj = glmReadOBJ("./Mallas/escenarioBase.obj");
+		  if (!plancha_obj)
 			  exit(0);
-		  glmUnitize(objmodel_ptr);
-		  glmFacetNormals(objmodel_ptr);
-		  glmVertexNormals(objmodel_ptr, 90.0);*/
-
-		  objmodel_ptr = glmReadOBJ("./Mallas/escenarioBase.obj");
-		  if (!objmodel_ptr)
-			  exit(0);
-		  glmUnitize(objmodel_ptr);
-		  glmFacetNormals(objmodel_ptr);
-		  glmVertexNormals(objmodel_ptr, 90.0);
+		  glmUnitize(plancha_obj);
+		  glmFacetNormals(plancha_obj);
+		  glmVertexNormals(plancha_obj, 90.0);
 	  }
 
 
 	  //*** Para Textura: abrir malla de objeto a texturizar
-	  objmodel_ptr1 = NULL;
+	  maquinaTiempo_obj = NULL;
 
-	  if (!objmodel_ptr1)
+	  if (!maquinaTiempo_obj)
 	  {
-		  objmodel_ptr1 = glmReadOBJ("./Mallas/bola.obj");
-		  if (!objmodel_ptr1)
+		  maquinaTiempo_obj = glmReadOBJ("./Mallas/TimeMachineV3.obj");
+		  if (!maquinaTiempo_obj)
 			  exit(0);
 
-		  glmUnitize(objmodel_ptr1);
-		  glmFacetNormals(objmodel_ptr1);
-		  glmVertexNormals(objmodel_ptr1, 90.0);
+		  glmUnitize(maquinaTiempo_obj);
+		  glmFacetNormals(maquinaTiempo_obj);
+		  glmVertexNormals(maquinaTiempo_obj, 90.0);
+	  }
+
+	  mesa_obj = NULL;
+	  
+	  if (!mesa_obj)
+	  {
+		  mesa_obj= glmReadOBJ("./Mallas/Mesa Octogonal.obj");
+		  if (!mesa_obj)
+			  exit(0);
+
+		  glmUnitize(mesa_obj);
+		  glmFacetNormals(mesa_obj);
+		  glmVertexNormals(mesa_obj, 90.0);
+	  }
+
+	  sillas_obj = NULL;
+
+	  if (!sillas_obj)
+	  {
+		  sillas_obj = glmReadOBJ("./Mallas/chairV3.obj");
+		  if (!sillas_obj)
+			  exit(0);
+
+		  glmUnitize(sillas_obj);
+		  glmFacetNormals(sillas_obj);
+		  glmVertexNormals(sillas_obj, 90.0);
+	  }
+
+	  palmas_obj = NULL;
+
+	  if (!palmas_obj)
+	  {
+		  palmas_obj = glmReadOBJ("./Mallas/Palm_Tree.obj");
+		  if (!palmas_obj)
+			  exit(0);
+
+		  glmUnitize(palmas_obj);
+		  glmFacetNormals(palmas_obj);
+		  glmVertexNormals(palmas_obj, 90.0);
+	  }
+
+	  fogata_obj = NULL;
+
+	  if (!fogata_obj)
+	  {
+		  fogata_obj = glmReadOBJ("./Mallas/campfire.obj");
+		  if (!fogata_obj)
+			  exit(0);
+
+		  glmUnitize(fogata_obj);
+		  glmFacetNormals(fogata_obj);
+		  glmVertexNormals(fogata_obj, 90.0);
+	  }
+
+	  chimenea_obj = NULL;
+
+	  if (!chimenea_obj)
+	  {
+		  chimenea_obj = glmReadOBJ("./Mallas/chimenea.obj");
+		  if (!chimenea_obj)
+			  exit(0);
+
+		  glmUnitize(chimenea_obj);
+		  glmFacetNormals(chimenea_obj);
+		  glmVertexNormals(chimenea_obj, 90.0);
 	  }
  
 	  //*** Para Textura: abrir archivo de textura
@@ -290,7 +363,7 @@ public:
      glLightfv(GL_LIGHT0, GL_AMBIENT, light_Ka);
      glLightfv(GL_LIGHT0, GL_DIFFUSE, light_Kd);
      glLightfv(GL_LIGHT0, GL_SPECULAR, light_Ks);
-
+	 
      // -------------------------------------------
      // Material parameters:
 

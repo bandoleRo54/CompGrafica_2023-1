@@ -91,10 +91,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Chimenea.h" />
     <ClInclude Include="cwc\include\glApplication.h" />
     <ClInclude Include="cwc\include\glsl.h" />
     <ClInclude Include="cwc\include\glutwindow.h" />
     <ClInclude Include="cwc\include\glWindow.h" />
+    <ClInclude Include="Fogata.h" />
     <ClInclude Include="freeglut\include\Gl\freeglut.h" />
     <ClInclude Include="freeglut\include\Gl\freeglut_ext.h" />
     <ClInclude Include="freeglut\include\Gl\freeglut_std.h" />
@@ -105,13 +107,19 @@
     <ClInclude Include="glew\include\Gl\glxew.h" />
     <ClInclude Include="glew\include\Gl\wglew.h" />
     <ClInclude Include="glm.h" />
-    <ClInclude Include="Suelo.h" />
+    <ClInclude Include="Mesa.h" />
+    <ClInclude Include="Palma.h" />
+    <ClInclude Include="Plancha.h" />
+    <ClInclude Include="MaquinaTiempo.h" />
+    <ClInclude Include="Silla.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Chimenea.cpp" />
     <ClCompile Include="cwc\source\glApplication.cpp" />
     <ClCompile Include="cwc\source\glsl.cpp" />
     <ClCompile Include="cwc\source\glutwindow.cpp" />
     <ClCompile Include="cwc\source\glWindow.cpp" />
+    <ClCompile Include="Fogata.cpp" />
     <ClCompile Include="freeglut\source\freeglut_callbacks.c" />
     <ClCompile Include="freeglut\source\freeglut_cursor.c" />
     <ClCompile Include="freeglut\source\freeglut_display.c" />
@@ -137,7 +145,11 @@
     <ClCompile Include="glew\source\glew.c" />
     <ClCompile Include="glm.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Suelo.cpp" />
+    <ClCompile Include="Mesa.cpp" />
+    <ClCompile Include="Palma.cpp" />
+    <ClCompile Include="Plancha.cpp" />
+    <ClCompile Include="MaquinaTiempo.cpp" />
+    <ClCompile Include="Silla.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="freeglut\source\freeglutdll.def" />

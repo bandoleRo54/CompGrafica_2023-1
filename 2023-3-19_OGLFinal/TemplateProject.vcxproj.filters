@@ -70,7 +70,13 @@
       <Filter>cwc\include</Filter>
     </ClInclude>
     <ClInclude Include="glm.h" />
-    <ClInclude Include="Suelo.h" />
+    <ClInclude Include="Plancha.h" />
+    <ClInclude Include="MaquinaTiempo.h" />
+    <ClInclude Include="Mesa.h" />
+    <ClInclude Include="Silla.h" />
+    <ClInclude Include="Palma.h" />
+    <ClInclude Include="Fogata.h" />
+    <ClInclude Include="Chimenea.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glew\source\glew.c">
@@ -156,7 +162,13 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="glm.cpp" />
-    <ClCompile Include="Suelo.cpp" />
+    <ClCompile Include="Plancha.cpp" />
+    <ClCompile Include="MaquinaTiempo.cpp" />
+    <ClCompile Include="Mesa.cpp" />
+    <ClCompile Include="Silla.cpp" />
+    <ClCompile Include="Palma.cpp" />
+    <ClCompile Include="Fogata.cpp" />
+    <ClCompile Include="Chimenea.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="freeglut\source\freeglutdll.def">
