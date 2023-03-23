@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>My first three.js app</title>
+		<style>
+			body { margin: 0; }
+		</style>
+	</head>
+	<body>
+		<script src="https://threejs.org/build/three.js"></script>
+		
+		<script>
+	
+			const scene = new THREE.Scene();
+			var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+			const renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+			document.body.addEventListener( 'keydown', onKeyDown, false );
+			
+			var light = new THREE.DirectionalLight( 0xffffff, 1 );
+			light.position.set( -20, 20, 20 );
+			scene.add(light);
+
+		
+			var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+			var material = new THREE.MeshNormalMaterial();
+			var cube = new THREE.Mesh( geometry, material );
+			scene.add( cube );
+
+			camera.position.z = 10;
+			
+			const texture = new THREE.TextureLoader().load( "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/18fc9e8c-8d1d-4492-a808-d125b9310556/d7pxfv4-6a44b369-8c61-41c8-937b-432f356e5ec7.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzE4ZmM5ZThjLThkMWQtNDQ5Mi1hODA4LWQxMjViOTMxMDU1NlwvZDdweGZ2NC02YTQ0YjM2OS04YzYxLTQxYzgtOTM3Yi00MzJmMzU2ZTVlYzcucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.ee-eKe4cRDHjefvkVSp2FdJrh0kSKMU9FOsYQC3-5pk" );
+			const texture1 = new THREE.TextureLoader().load( "http://4.bp.blogspot.com/-Dm3fmTzDs8Q/VdQW2MAz3QI/AAAAAAAAAMA/vhwD9aVgWHQ/s1600/earth_normalmap.png" );
+			const texture2 = new THREE.TextureLoader().load( "https://thumbs.dreamstime.com/b/texture-soccer-ball-13533294.jpg" );
+			const texture3 = new THREE.TextureLoader().load( "https://t3.ftcdn.net/jpg/04/97/94/82/360_F_497948220_8CgjuObT3AksD7TNwDuJ3A9MmL2T6Hwz.jpg" );
+			
+			
+			var geo = new THREE.SphereGeometry( 2, 24, 16 );
+			//var materials = new THREE.MeshBasicMaterial({map: texture});
+			var materials = new THREE.MeshPhongMaterial({color: 0xaaaaaa, specular: 0x333333, shininess: 50, map: texture2, normalMap: texture1}) //, specularMap: specMap,normalMap: normalMap});
+			
+			var sphere = new THREE.Mesh( geo, materials );
+			sphere.position.x = -5;
+			scene.add( sphere );
+
+	
+			var loader = new THREE.ObjectLoader();
+			
+			loader.load("./modelos-json/silla.json", function( group ) {
+			mesh = group.children[0];
+				mesh.material = new THREE.MeshPhongMaterial({color: 0xaaaaaa, specular: 0x333333, shininess: 15, map: texture})
+				mesh.position.x = 5;
+				scene.add( mesh );
+			});			
+			
+			var loader2 = new THREE.ObjectLoader();
+			
+			loader2.load("./modelos-json/mesaa.json", function( group ) {
+			mesh2 = group.children[0];
+				mesh2.material = new THREE.MeshPhongMaterial({color: 0xaaaaaa, specular: 0x333333, shininess: 15, map: texture3})
+				//mesh2.position.x = 5;
+				mesh2.position.y = 4;
+				scene.add( mesh2 );
+			});
+			
+			var loader3 = new THREE.ObjectLoader();
+			
+			loader3.load("./modelos-json/Machine.json", function( group ) {
+			mesh3 = group.children[0];
+				mesh3.material = new THREE.MeshPhongMaterial({color: 0xaaaaaa, specular: 0x333333, shininess: 15, map: texture})
+				//mesh2.position.x = 5;
+				mesh3.position.z = -50;
+				mesh3.position.x = -40;
+				mesh3.scale = 0.5;
+				scene.add( mesh3 );
+			});
+
+			function animate() {
+				requestAnimationFrame( animate );
+
+				cube.rotation.x += 0.01;
+				cube.rotation.y += 0.01;
+
+				renderer.render( scene, camera );
+			}
+			
+			function onKeyDown(){
+			switch( event.keyCode ) {
+			   case 83: // forward
+			   camera.position.z += 1;
+			   break;
+			   case 87: // backward
+			   camera.position.z -= 1;
+			   break;
+			   case 65: // left
+			   camera.position.x -= 1;
+			   break;
+			   case 68: // right
+			   camera.position.x += 1;
+			   break;
+			   case 81: // up 
+			   camera.position.y += 1;
+			   break;
+			   case 69: // down
+			   camera.position.y -= 1;
+			   break;
+			   case 49: // rotate left 
+			   camera.rotation.y += 0.1;
+			   break;
+			   case 51: // rotate right
+			   camera.rotation.y -= 0.1;
+			   break;
+			}
+			}
+
+			animate();
+		</script>
+	</body>
+</html>
